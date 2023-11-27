@@ -18,10 +18,10 @@ from math import sqrt
 import time
 t0 = time.time()
 MC_step = 500000
-T_list = [120.0,108.0,97.2,87.5,78.7,70.8,63.8,57.4,51.6,46.5,41.8,37.6,33.9,30.5,27.5,25.0] 
-wt = 0.76  #0.9
-U_lone = 0.8    # penalty of lone base pair
-U_AU_end = 0.45  # penalty of AU at end
+T_list = [120.0,108.0,97.2,87.5,78.7,70.8,63.8,57.4,51.6,46.5,41.8,37.6,33.9,30.5,27.5,25.0]
+wt = 0.5  #0.9
+U_lone = 0.5    # penalty of lone base pair
+U_AU_end = 1.6  # penalty of AU at end
 if len(sys.argv) < 2:
     print("USAGE: python CODA2_MC.py file_name path rand_seed (e.g, 5E54 ./ 0)")
     exit(1)
@@ -33,7 +33,7 @@ else:
     seed = int(sys.argv[3])
 score_path = Filepath + 'score/final_score.txt'
 sequence_file = Filepath + 'data/' + sys.argv[1] + '.fasta'
-#native_file = Filepath + 'data/' + sys.argv[1] + '-native.txt'
+native_file = Filepath + 'data/' + sys.argv[1] + '-native.txt'
 #out_file = 'MC/'+sys.argv[3] + '/'
 #Outpath = Filepath + out_file
 Outpath = Filepath + 'MC/'
@@ -189,7 +189,7 @@ def MC_SA(score_matrix,seq):
                             U_stack = 0.0
                         U_after += wt*U_stack 
                     if (j==0 or j==L-1):
-                        if ((seq[pair1]=='U' and seq[pair2]=='A') or (seq[pair1]=='A' and seq[pair2]=='U')):
+                        if ((seq[pair1]=='U' ) or (seq[pair2]=='U')):
                             U_after += wt*U_AU_end
             ###Metroplis
             delt = U_after - U_before
@@ -298,9 +298,9 @@ def pair2dbn(pair_matrix, seq):
                dbn[i] = "("
                dbn[j] = ")"               
     dbn_str = "".join([x for x in dbn])
-    2D_out = open(Outpath + '2D.dot', 'w')
-    2D.out.write(dbn_str)
-    2D.out.close()
+    out = open(Outpath + '2D.dot', 'w')
+    out.write(dbn_str)
+    out.close()
     return dbn_str  
 '''
 ## Evaluate the results
@@ -374,8 +374,9 @@ if __name__ == "__main__":
     sequence, seqLen = read_seq(sequence_file)
     score = Read_score(score_path,seqLen)
     pair, pair_minE, U_min = MC_SA(score,sequence)
+    dbn = pair2dbn(pair_minE, sequence)
     #Evaluation_score(pair,pair_minE,sequence,U_min)
-    #plot_heatmap_score(Outpath+"MC_minE_contact_map",pair_minE,seqLen,1,0,1) 
+    plot_heatmap_score(Outpath+"MC_minE_contact_map",pair_minE,seqLen,1,0,1) 
     run_time = time.time() - t0
     print("The run time: ",run_time,"s")
 
