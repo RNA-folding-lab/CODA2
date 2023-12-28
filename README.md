@@ -21,3 +21,7 @@ RNA-BRiQ (https://github.com/Jian-Zhan/RNA-BRiQ)
 1. score/: CODA score matrix, Score_map
 2. MC/: mc_energy.txt, contact map with lowest energy, predicted secondary structure (dot-bracket and txt format)
 3. 3D/: predicted 3D structure by BRiQ (pred.pdb)
+
+# Reference
+1. Zhang, Z., Xiong, P., Zhang, T., Wang, J., Zhan, J., & Zhou, Y. (2020). Accurate inference of the full base-pairing structure of RNA by deep mutational scanning and covariation-induced deviation of activity. Nucleic Acids Research, 48(3), 1451–1465. https://doi.org/10.1093/nar/gkz1192
+2. Xiong, P., Wu, R., Zhan, J., & Zhou, Y. (2021). Pairing a high-resolution statistical potential with a nucleobase-centric sampling algorithm for improving RNA model refinement. Nature communications, 12(1), 2777. https://doi.org/10.1038/s41467-021-23100-4
